@@ -43,11 +43,11 @@ void setupBoard() {
         pinMode(ledPIN_R2, OUTPUT);
         pinMode(ledPIN_R3, OUTPUT);
         pinMode(ledPIN_R4, OUTPUT);
-        digitalWrite(ledPIN_R0, LOW);
-        digitalWrite(ledPIN_R1, LOW);
-        digitalWrite(ledPIN_R2, LOW);
-        digitalWrite(ledPIN_R3, LOW);
-        digitalWrite(ledPIN_R4, LOW);
+        //digitalWrite(ledPIN_R0, LOW);
+        //digitalWrite(ledPIN_R1, LOW);
+        //digitalWrite(ledPIN_R2, LOW);
+        //digitalWrite(ledPIN_R3, LOW);
+        //digitalWrite(ledPIN_R4, LOW);
         //ROW0
         stripBoard_R0.begin();
         stripBoard_R0.setBrightness(50);

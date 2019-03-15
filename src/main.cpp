@@ -133,7 +133,7 @@ void setup() {
   if(isServer){
     controller::setupController();
     //pentagramm::setupCapacitiveSensor();
-    //setup_rfid();
+    setup_rfid();
   }
 
   //CLIENT
@@ -153,13 +153,14 @@ void loop()
     pentagramm::loopCapacitiveSensor();
   }*/
   Serial.println("Loop begin");
-
-  ledPatterns::resetColor(LENGTH_BOARD_R0, &stripBoard_R0);
-  ledPatterns::resetColor(LENGTH_BOARD_R1, &stripBoard_R1);
-  ledPatterns::resetColor(LENGTH_BOARD_R2, &stripBoard_R2);
-  ledPatterns::resetColor(LENGTH_BOARD_R3, &stripBoard_R3);
-  ledPatterns::resetColor(LENGTH_BOARD_R4, &stripBoard_R4);
-  Serial.println("Colors reset");
+  if (!isServer) {
+    ledPatterns::resetColor(LENGTH_BOARD_R0, &stripBoard_R0);
+    ledPatterns::resetColor(LENGTH_BOARD_R1, &stripBoard_R1);
+    ledPatterns::resetColor(LENGTH_BOARD_R2, &stripBoard_R2);
+    ledPatterns::resetColor(LENGTH_BOARD_R3, &stripBoard_R3);
+    ledPatterns::resetColor(LENGTH_BOARD_R4, &stripBoard_R4);
+    Serial.println("Colors reset");
+  }
 
   if(!isServer){
     if (!ghostshown){
@@ -169,32 +170,41 @@ void loop()
     }
   }
 
-        /*auto key = rfid().substring(1);
-        Serial.println(key);
-        if (!GetValue(key).equals("EMPTY")) {
-          ledPatterns::resetColor(LENGTH_CONTROLLER, &strip_Controller);
-          Serial.println("000");
-          nextsp.send('1');
-          Serial.println("111");
-          //sentData = GetValue(key);
-          Serial.println("222");
-          delay(50);
-          Serial.println("333");
-        }
 
-        if (GetValue(key) == "1") {
-          controller::activateMotor();
-          Serial.println("444");
-        }
-        */
 
-     delay(20);
-     Serial.println("555");
-     //update_rfid();
-     Serial.println("666");
-     delay(20);
-     Serial.println("777");
-     nextsp.update();
-     Serial.println("888");
+  if (isServer && ghostshown && nextsp.connected() && !sentData) {
+    auto key = rfid().substring(1);
+    sentData = GetValue(key);
+    Serial.println(sentData);
+    Serial.println(key);
+    if (!GetValue(key).equals("EMPTY")) {
+      ledPatterns::resetColor(LENGTH_CONTROLLER, &strip_Controller);
+      Serial.println("000");
+
+      /*if (GetValue(key) == "1") {
+        controller::activateMotor();
+        Serial.println("444");
+      }*/
+
+      nextsp.send('1');
+      Serial.println("111");
+
+      Serial.println("222");
+      delay(50);
+      Serial.println("333");
+  }
+
+delay(20);
+Serial.println("555");
+update_rfid();
+}
+
+   Serial.println("666");
+   Serial.println("777");
+   /*if (!isServer) {
+     delay(100);
+   }*/
+   nextsp.update();
+   Serial.println("888");
 }
 //____________________________END____LOOP_____________________________________________//
