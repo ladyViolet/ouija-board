@@ -133,22 +133,24 @@ void loop()
     //loop capacitiveSensor
     pentagramm::loopCapacitiveSensor();
   }*/
-        auto key = rfid().substring(1);
-        Serial.println(key);
-        if (!GetValue(key).equals("EMPTY") && sentData != GetValue(key)) {
-          ledPatterns::resetColor(LENGTH_CONTROLLER, &strip_Controller);
-          nextsp.send(GetValue(key));
-          sentData = GetValue(key);
-          delay(50);
-        }
+  if (isMaster) {
+    auto key = rfid().substring(1);
+    Serial.println(key);
+    if (!GetValue(key).equals("EMPTY") && sentData != GetValue(key)) {
+      ledPatterns::resetColor(LENGTH_CONTROLLER, &strip_Controller);
+      nextsp.send(GetValue(key));
+      sentData = GetValue(key);
+      delay(50);
+    }
 
-        if (GetValue(key) == "1") {
-          controller::activateMotor();
-        }
+    if (GetValue(key) == "1") {
+      controller::activateMotor();
+    }
+    delay(20);
+    Serial.println("12");
+    update_rfid();
+  }
 
-     delay(20);
-     Serial.println("12");
-     update_rfid();
      Serial.println("1113");
      delay(20);
      Serial.println("14");
