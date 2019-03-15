@@ -12,6 +12,13 @@
   #include <avr/power.h>
 #endif
 
+//LED
+ // This is for Trinket 5V 16MHz, you can remove these three lines if you are not using a Trinket
+#if defined (__AVR_ATtiny85__)
+  if (F_CPU == 16000000) clock_prescale_set(clock_div_1);
+#endif
+// End of trinket special code
+
 using namespace controller;
 using namespace board;
 using namespace ledPatterns;
@@ -19,13 +26,15 @@ using namespace pentagramm;
 
 bool ghostshown;
 
+bool AS_oncesent;
+
 //RFID-READER
 int mode = 3;
 //nExtSP
 NEXTSP nextsp; //communication between Esp's
 bool isServer;//if true Esp is Master
 const int masterPIN = D0;//set to 5V to initialise Master
-String sentData;//to avoid sending the same data again and again
+String sentData = "ANDERS";//to avoid sending the same data again and again
 
 //_______________BEGIN___ONEPURPLE____________________________________________________//
 void onePurple(uint8_t wait, Adafruit_NeoPixel *strip, String key) {
@@ -123,10 +132,25 @@ onePurple(20, GetRow(key), key);
 void setup() {
 
   Serial.begin(9600);
+  delay(100);
   Serial.println("Setup started");
   pinMode(masterPIN, INPUT); //server / client switch
+  delay(100);
   isServer = digitalRead(masterPIN);
+  delay(100);
   Serial.println(isServer);
+
+  delay(100);
+  nextsp.begin(isServer,"OUIIIJAAA",&onCallback);
+  delay(100);
+  Serial.println("after esp begin");
+
+    while(!nextsp.connected())
+    {
+        Serial.print(".");
+        nextsp.update();
+        delay(100);
+    }
 
   //MASTER
   if(isServer){
@@ -134,6 +158,7 @@ void setup() {
     Serial.println("controller setup ended");
     //pentagramm::setupCapacitiveSensor();
     setup_rfid();
+    Serial.println("setup rfid success");
   }
 
   //CLIENT
@@ -141,71 +166,76 @@ void setup() {
     board::setupBoard();
     Serial.println("board setup ended");
   }
-  nextsp.begin(isServer,"OUIIIJAAA",&onCallback);
-  Serial.println("after esp begin");
+
+
   Serial.println("End Setup");
 }
-//_______________________END__SETUP____________________________________________________//
+//_____________________END__SETUP_______________________________________________________//
 
 //_____________________BEGIN__LOOP______________________________________________________//
-void loop()
-{
-    //TURN LED ON WITH CAPACITIVE SENSOR
-    /*if (!isActive){
-    //loop capacitiveSensor
-    pentagramm::loopCapacitiveSensor();
-  }*/
-  Serial.println("Loop begin");
-  if (!isServer) {
-    ledPatterns::resetColor(LENGTH_BOARD_R0, &stripBoard_R0);
-    ledPatterns::resetColor(LENGTH_BOARD_R1, &stripBoard_R1);
-    ledPatterns::resetColor(LENGTH_BOARD_R2, &stripBoard_R2);
-    ledPatterns::resetColor(LENGTH_BOARD_R3, &stripBoard_R3);
-    ledPatterns::resetColor(LENGTH_BOARD_R4, &stripBoard_R4);
-    Serial.println("Colors reset");
-  }
+   void loop()
+   {
+       //TURN LED ON WITH CAPACITIVE SENSOR
+       /*if (!isActive){
+       //loop capacitiveSensor
+       pentagramm::loopCapacitiveSensor();
+     }*/
+     Serial.println("Loop begin");
+     /*if (!isServer) {
+       ledPatterns::resetColor(LENGTH_BOARD_R0, &stripBoard_R0);
+       ledPatterns::resetColor(LENGTH_BOARD_R1, &stripBoard_R1);
+       ledPatterns::resetColor(LENGTH_BOARD_R2, &stripBoard_R2);
+       ledPatterns::resetColor(LENGTH_BOARD_R3, &stripBoard_R3);
+       ledPatterns::resetColor(LENGTH_BOARD_R4, &stripBoard_R4);
+       Serial.println("Colors reset");
+     }*/
 
-  /*if(!isServer){
-    if (!ghostshown){
-    displayGhost();
-    ghostshown = true;
-    Serial.println("Ghost was shown");
-    }
-  }*/
+     /*if(!isServer){
+       if (!ghostshown){
+       displayGhost();
+       ghostshown = true;
+       Serial.println("Ghost was shown");
+       }
+     }*/
 
-  if (isServer && ghostshown && nextsp.connected() && !sentData) {
-    auto key = rfid().substring(1);
-    sentData = GetValue(key);
-    Serial.println(sentData);
-    Serial.println(key);
-    if (!GetValue(key).equals("EMPTY")) {
-      ledPatterns::resetColor(LENGTH_CONTROLLER, &strip_Controller);
-      Serial.println("000");
+     //String key = "DERP";//rfid().substring(1);
+     String key = rfid().substring(1);
 
-      /*if (GetValue(key) == "1") {
-        controller::activateMotor();
-        Serial.println("444");
-      }*/
+     Serial.println(key);
+     if (isServer && nextsp.connected() && !key.equals(sentData)) {
+         sentData = GetValue(key);
+         Serial.println(sentData);
 
-      nextsp.send('1');
-      Serial.println("111");
+         if (!GetValue(key).equals("EMPTY")) {
+            //ledPatterns::resetColor(LENGTH_CONTROLLER, &strip_Controller);
+            Serial.println("000");
 
-      Serial.println("222");
-      delay(50);
-      Serial.println("333");
-  }
+            if (GetValue(key) == "1") {
+              controller::activateMotor();
+              Serial.println("444");
+            }
 
-delay(20);
-Serial.println("555");
-update_rfid();
-}
 
-   Serial.println("666");
-   Serial.println("777");
-   /*if (!isServer) {
-     delay(100);
-   }*/
-   nextsp.update();
-   Serial.println("888");
+            // AS vermutlich noch doof
+            nextsp.send('1');
+
+            Serial.println("222");
+            delay(50);
+            Serial.println("333");
+            
+        }
+
+        delay(20);
+        Serial.println("555");
+        update_rfid();
+
+   }
+    Serial.println("666");
+    // geht laut elisa auch ohne
+    delay(100);
+    
+    nextsp.update();
+   Serial.println("END LOOP");
+
 }
 //____________________________END____LOOP_____________________________________________//

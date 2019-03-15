@@ -12,11 +12,8 @@ const int motorPin = D5; //Vibration on Controller
   //SETUP FOR SERVER
      pinMode(motorPin, OUTPUT);
 
-     Serial.println("1");
+/*     Serial.println("1");
      pinMode(ledPIN_Controller, OUTPUT); //LED
-
-     Serial.println("2");
-     pinMode(motorPin, OUTPUT);
 
      Serial.println("3");
      strip_Controller = Adafruit_NeoPixel(LENGTH_CONTROLLER, ledPIN_Controller, NEO_GRB + NEO_KHZ800);
@@ -28,7 +25,8 @@ const int motorPin = D5; //Vibration on Controller
      strip_Controller.setBrightness(50);
 
      Serial.println("6");
-     strip_Controller.show();
+     strip_Controller.show();*/
+
      Serial.println("end setupController");
   }
 
