@@ -1,8 +1,8 @@
 #include <Arduino.h>
 #include <Adafruit_NeoPixel.h>
+#include <CapacitiveSensor.h>
 #include "LedPatterns.h"
 #include "nExtSP.h"
-#include "CapacitiveSensor.h"
 #include "Controller.h"
 #include "Board.h"
 #include "Pentagramm.h"
