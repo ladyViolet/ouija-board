@@ -58,7 +58,7 @@ void displayGhost() {
   delay(1000);
   stripBoard_R0.setPixelColor(15, stripBoard_R0.Color(0, 0, 0));
   stripBoard_R0.setPixelColor(16, stripBoard_R0.Color(0, 0, 0));
-  stripBoard_R0.show();
+  //stripBoard_R0.show();
   //H
   stripBoard_R0.setPixelColor(13, stripBoard_R0.Color(255, 0, 0));
   stripBoard_R0.setPixelColor(14, stripBoard_R0.Color(255, 0, 0));
@@ -74,7 +74,7 @@ void displayGhost() {
   delay(1000);
   stripBoard_R1.setPixelColor(25, stripBoard_R1.Color(0, 0, 0));
   stripBoard_R1.setPixelColor(26, stripBoard_R1.Color(0, 0, 0));
-  stripBoard_R1.show();
+  //stripBoard_R1.show();
   //S
   stripBoard_R1.setPixelColor(16, stripBoard_R1.Color(255, 0, 0));
   stripBoard_R1.setPixelColor(17, stripBoard_R1.Color(255, 0, 0));
@@ -82,7 +82,7 @@ void displayGhost() {
   delay(1000);
   stripBoard_R1.setPixelColor(16, stripBoard_R1.Color(0, 0, 0));
   stripBoard_R1.setPixelColor(17, stripBoard_R1.Color(0, 0, 0));
-  stripBoard_R1.show();
+  //stripBoard_R1.show();
   //T
   stripBoard_R1.setPixelColor(14, stripBoard_R1.Color(255, 0, 0));
   stripBoard_R1.setPixelColor(15, stripBoard_R1.Color(255, 0, 0));
@@ -124,7 +124,7 @@ Serial.println("Callback called");
     ledPatterns::fullWhite(50, &stripBoard_R2);
     ledPatterns::resetColor(LENGTH_BOARD_R2, &stripBoard_R2);
   }*/
-  
+
   if(b[0] == '1'){
     displayGhost();
   }
@@ -215,30 +215,30 @@ void setup() {
             Serial.println("000");
 
             if (GetValue(key) == "1") {
-              controller::activateMotor();
+              //controller::activateMotor();
               Serial.println("444");
             }
 
 
             // AS vermutlich noch doof
-            nextsp.send('1');
+            nextsp.send(GetValue(key));
 
             Serial.println("222");
             delay(50);
             Serial.println("333");
-            
+
         }
 
         delay(20);
         Serial.println("555");
-        update_rfid();
 
    }
+   update_rfid();
     Serial.println("666");
     // geht laut elisa auch ohne
     delay(100);
-    
-    nextsp.update();
+
+  nextsp.update();
    Serial.println("END LOOP");
 
 }
