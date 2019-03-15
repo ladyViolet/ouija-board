@@ -88,7 +88,6 @@ void displayGhost() {
   stripBoard_R1.setPixelColor(15, stripBoard_R1.Color(255, 0, 0));
   stripBoard_R1.show();
   delay(1000);
-  stripBoard_R1.setPixelColor(14, stripBoard_R1.Color(0, 0, 0));
   stripBoard_R1.setPixelColor(15, stripBoard_R1.Color(0, 0, 0));
   stripBoard_R1.show();
 }
@@ -97,11 +96,11 @@ void displayGhost() {
 //_______________BEGIN___CALLBACK___NEXTSP____________________________________________________//
 void onCallback(byte* b,int length){
 Serial.println("Callback called");
-Serial.println(b[0], HEX);
-String key = GetKey(b[0]);
-Serial.println("before onPurple call");
-onePurple(20, GetRow(key), key);
-
+//Serial.println(b[0], HEX);
+//String key = GetKey(b[0]);
+//Serial.println("before onPurple call");
+//onePurple(20, GetRow(key), key);
+/*
   if(b[0] == '1') {
     Serial.println("YES ON");
     ledPatterns::fullWhite(50, &stripBoard_R4);
@@ -124,7 +123,12 @@ onePurple(20, GetRow(key), key);
     Serial.println("GOODBYE ON");
     ledPatterns::fullWhite(50, &stripBoard_R2);
     ledPatterns::resetColor(LENGTH_BOARD_R2, &stripBoard_R2);
+  }*/
+  
+  if(b[0] == '1'){
+    displayGhost();
   }
+  delay(100);
 }
 //_______________END___CALLBACK___NEXTSP____________________________________________________//
 
