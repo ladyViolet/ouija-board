@@ -127,11 +127,11 @@ void setup() {
   pinMode(masterPIN, INPUT); //server / client switch
   isServer = digitalRead(masterPIN);
   Serial.println(isServer);
-  nextsp.begin(isServer,"98761",&onCallback);
 
   //MASTER
   if(isServer){
     controller::setupController();
+    Serial.println("controller setup ended");
     //pentagramm::setupCapacitiveSensor();
     setup_rfid();
   }
@@ -139,7 +139,10 @@ void setup() {
   //CLIENT
   if(!isServer){
     board::setupBoard();
+    Serial.println("board setup ended");
   }
+  nextsp.begin(isServer,"OUIIIJAAA",&onCallback);
+  Serial.println("after esp begin");
   Serial.println("End Setup");
 }
 //_______________________END__SETUP____________________________________________________//
@@ -162,15 +165,13 @@ void loop()
     Serial.println("Colors reset");
   }
 
-  if(!isServer){
+  /*if(!isServer){
     if (!ghostshown){
     displayGhost();
     ghostshown = true;
     Serial.println("Ghost was shown");
     }
-  }
-
-
+  }*/
 
   if (isServer && ghostshown && nextsp.connected() && !sentData) {
     auto key = rfid().substring(1);
