@@ -26,31 +26,28 @@ using namespace pentagramm;
 
 bool ghostshown;
 
-bool AS_oncesent;
-
 //RFID-READER
 int mode = 3;
 //nExtSP
 NEXTSP nextsp; //communication between Esp's
 bool isServer;//if true Esp is Master
+bool notReady;//to avoid blocking data
 const int masterPIN = D0;//set to 5V to initialise Master
-String sentData = "ANDERS";//to avoid sending the same data again and again
+String sentData = "";//to avoid sending the same data again and again
 
 //_______________BEGIN___ONEPURPLE____________________________________________________//
 void onePurple(uint8_t wait, Adafruit_NeoPixel *strip, String key) {
   Serial.println("OnePurple");
-  for(int i = GetID(key); i < GetLength(key); i++) {
-        strip->setPixelColor(i, strip->Color(148,0,211) );//dark purple
+  for(int i = 0; i < strip->numPixels(); i++) {
+    if(i >= GetID(key) && i < GetLength(key)+GetID(key)) {
+      strip->setPixelColor(i, strip->Color(148, 0, 211));
+    }else{
+      strip->setPixelColor(i, strip->Color(0, 0, 0));
     }
-      strip->show();
-      delay(wait);
-  for(int i = GetID(key); i < GetLength(key); i++) {
-        strip->setPixelColor(i, strip->Color(0,0,0) );//black
-    }
-      strip->show();
-      delay(wait);
-      Serial.println("DarkPurple");
-      //ledPatterns::resetColor(GetLength(key), strip);
+  }
+  strip->show();
+  delay(wait);
+  Serial.println("one Purple END");
 }
 //_______________END___ONEPURPLE____________________________________________________//
 
@@ -133,6 +130,8 @@ onePurple(20, GetRow(key), key);
   /*if(b[0] == '1'){
     displayGhost();
   }*/
+  Serial.println("Callback finished");
+  notReady = false;
 }
 //_______________END___CALLBACK___NEXTSP____________________________________________________//
 
@@ -188,7 +187,7 @@ void setup() {
        //loop capacitiveSensor
        pentagramm::loopCapacitiveSensor();
      }*/
-     Serial.println("Loop begin");
+     Serial.println("Loop begin OUAHUUU");
      /*if (!isServer) {
        ledPatterns::resetColor(LENGTH_BOARD_R0, &stripBoard_R0);
        ledPatterns::resetColor(LENGTH_BOARD_R1, &stripBoard_R1);
@@ -207,41 +206,37 @@ void setup() {
      }*/
 
      //String key = "DERP";//rfid().substring(1);
-     String key = rfid().substring(1);
+     if (isServer) {
+       String key = GetValue(rfid().substring(1));
+       Serial.println(key);
 
-     Serial.println(key);
-     if (isServer && nextsp.connected() && !key.equals(sentData)) {
-         sentData = GetValue(key);
+
+     if (nextsp.connected() && !key.equals(sentData) && !key.equals("EMPTY") && !notReady) {
+         sentData = key;
          Serial.println(sentData);
 
-         if (!GetValue(key).equals("EMPTY")) {
             //ledPatterns::resetColor(LENGTH_CONTROLLER, &strip_Controller);
             Serial.println("000");
 
-            if (GetValue(key) == "1") {
+            /*if (GetValue(key) == "1") {
               //controller::activateMotor();
               Serial.println("444");
-            }
-
+            }*/
 
             // AS vermutlich noch doof
-            nextsp.send(GetValue(key));
-
-            Serial.println("222");
-            delay(50);
-            Serial.println("333");
-
-        }
-
-        delay(20);
-        Serial.println("555");
+            nextsp.send(key);
+            notReady = true;
+            delay(100);
+            Serial.println("111");
 
    }
+  }
+   //delay(100);
    update_rfid();
-    Serial.println("666");
+    Serial.println("222");
     // geht laut elisa auch ohne
     delay(100);
-
+    //ESP.getFreeHeap();
   nextsp.update();
    Serial.println("END LOOP");
 
