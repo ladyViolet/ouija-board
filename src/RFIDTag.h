@@ -13,7 +13,7 @@ struct KeyValue{
   Adafruit_NeoPixel *row;
 };
 
-KeyValue* rfidTags[31] = {
+KeyValue* rfidTags[30] = {
   new KeyValue("", "EMPTY", -2, -2, nullptr),
   //CARDS TO TEST
   //new KeyValue("171 80 17 183", "testON", ),
@@ -46,8 +46,8 @@ KeyValue* rfidTags[31] = {
   new KeyValue("010 161 227 115", "Z", 0, 2, &board::stripBoard_R1),
   new KeyValue("09 159 201 115", "1", 0, 8, &board::stripBoard_R4),//YES
   new KeyValue("41 014 165 131", "2", 0, 26, &board::stripBoard_R3),//STERN
-  new KeyValue("102 212 201 115", "4", 0, 21, &board::stripBoard_R2),//GOOD
-  new KeyValue("185 246 138 195", "3", 0, 21, &board::stripBoard_R2)//BYE
+  new KeyValue("102 212 201 115", "4", 0, 21, &board::stripBoard_R2)//GOOD
+  //new KeyValue("185 246 138 195", "3", 0, 21, &board::stripBoard_R2)//BYE
 };
 
 

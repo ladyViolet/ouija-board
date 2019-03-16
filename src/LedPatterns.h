@@ -18,13 +18,20 @@ namespace ledPatterns {
 
   void resetColor(int length, Adafruit_NeoPixel *strip) {
     for (int i=0; i<length;i++) {
-      strip->setPixelColor(i, strip->Color(0,0,0));
+      strip->setPixelColor(i, 0);
     }
-    strip->show();
+    //strip->show();
   }
 
+  /*void resetColor(int length, Adafruit_NeoPixel strip) {
+    for (int i=0; i<length;i++) {
+      strip.setPixelColor(i, strip.Color(0,0,0));
+    }
+    strip.show();
+  }*/
+
   //LED RAINBOW Pattern
-  void rainbow(uint8_t wait, Adafruit_NeoPixel *strip) {
+  void rainbow(uint32_t wait, Adafruit_NeoPixel *strip) {
     uint16_t i, j;
     for(j=0; j<256; j++) {
       for(i=0; i<strip->numPixels(); i++) {
@@ -43,18 +50,38 @@ namespace ledPatterns {
     }
   }
 
-  void fullWhite(uint8_t wait, Adafruit_NeoPixel *strip) {
+  /*void fullWhite(uint32_t wait, Adafruit_NeoPixel *strip) {
+    Serial.println(strip->numPixels());
     for(uint16_t i=0; i<strip->numPixels(); i++) {
           strip->setPixelColor(i, strip->Color(0,0, 255 ) );//blue
       }
+
         strip->show();
         delay(wait);
 
         for(uint16_t i = 0; i < strip->numPixels(); i++) {
-              strip->setPixelColor(i, strip->Color(0,0,0 ) );//white
+              strip->setPixelColor(i, strip->Color(255,0,0));//black
           }
+
             strip->show();
             delay(wait);
+  }*/
+
+  void fullWhite(uint32_t wait, Adafruit_NeoPixel *strip) {
+    for(uint16_t i=0; i<30; i++) {
+          strip->setPixelColor(i, 1);//blue
+      }
+
+        strip->show();
+        delay(wait);
+
+        for(uint16_t i = 0; i < 30; i++) {
+              strip->setPixelColor(i, 0);//black
+          }
+
+            strip->show();
+            delay(wait);
+            Serial.println("end full white");
   }
 
 }

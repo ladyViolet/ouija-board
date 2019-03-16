@@ -31,26 +31,48 @@ int mode = 3;
 //nExtSP
 NEXTSP nextsp; //communication between Esp's
 bool isServer;//if true Esp is Master
-bool notReady;//to avoid blocking data
+//bool notReady;//to avoid blocking data
 const int masterPIN = D0;//set to 5V to initialise Master
 String sentData = "";//to avoid sending the same data again and again
 
 //_______________BEGIN___ONEPURPLE____________________________________________________//
 void onePurple(uint8_t wait, Adafruit_NeoPixel *strip, String key) {
   Serial.println("OnePurple");
-  for(int i = 0; i < strip->numPixels(); i++) {
+  /*for(int i = 0; i < strip->numPixels(); i++) {
     if(i >= GetID(key) && i < GetLength(key)+GetID(key)) {
       strip->setPixelColor(i, strip->Color(0, 0, 255));
       //strip->setPixelColor(i, strip->Color(148, 0, 211));
     }else{
       strip->setPixelColor(i, strip->Color(0, 0, 0));
     }
-  }
-  strip->show();
+  }*/
+for (int i = 0; i < 10; i++) {
+  stripBoard_R0.setPixelColor(4,stripBoard_R0.Color(255, 0, 0));
+  stripBoard_R0.show();
+  delay(1000);
+  stripBoard_R0.setPixelColor(4,stripBoard_R0.Color(0, 0, 0));
+  stripBoard_R0.show();
+  delay(1000);
+}
+
   delay(wait);
   Serial.println("one Purple END");
 }
 //_______________END___ONEPURPLE____________________________________________________//
+
+//_______________BEGIN___TWOPURPLE____________________________________________________//
+void twoPurple(Adafruit_NeoPixel *strip) {
+  for (int i = 0; i < 10; i++) {
+    strip->setPixelColor(4,strip->Color(255, 0, 0));
+    strip->show();
+    delay(1000);
+    strip->setPixelColor(4, 0);
+    strip->show();
+    delay(1000);
+  }
+    Serial.println("one Purple END");
+}
+//_______________END___TWOPURPLE____________________________________________________//
 
 //_______________BEGIN___GHOST___________________________________________________//
 void displayGhost() {
@@ -99,10 +121,10 @@ void displayGhost() {
 //_______________BEGIN___CALLBACK___NEXTSP____________________________________________________//
 void onCallback(byte* b,int length){
 Serial.println("Callback called");
-Serial.println(GetKey(b[0]));
-String key = GetKey(b[0]);
+Serial.println((char)b[0]);
+//String key = GetKey(b[0]);
 //Serial.println("before onPurple call");
-onePurple(20, GetRow(key), key);
+//onePurple(100, GetRow(key), key);
 /*
   if(b[0] == '1') {
     Serial.println("YES ON");
@@ -131,7 +153,7 @@ onePurple(20, GetRow(key), key);
   /*if(b[0] == '1'){
     displayGhost();
   }*/
-  notReady = false;
+  //notReady = false;
   delay(100);
   Serial.println("Callback finished");
 }
@@ -150,11 +172,11 @@ void setup() {
   Serial.println(isServer);
 
   delay(100);
-  nextsp.begin(isServer,"OUIIIJAAA",&onCallback);
+  //nextsp.begin(isServer,"OUIIIJAAA",&onCallback);
   delay(100);
   Serial.println("after esp begin");
 
-    while(!nextsp.connected())
+    /*while(!nextsp.connected())
     {
         Serial.print(".");
         nextsp.update();
@@ -174,9 +196,16 @@ void setup() {
   if(!isServer){
     board::setupBoard();
     Serial.println("board setup ended");
-  }
+  }*/
 
-
+  //board::setupBoard();
+  pinMode(ledPIN_R0, OUTPUT);
+  stripBoard_R0 = Adafruit_NeoPixel(LENGTH_BOARD_R0, ledPIN_R0, NEO_GRB + NEO_KHZ800);
+  stripBoard_R0.begin();
+  delay(100);
+  ledPatterns::resetColor(LENGTH_BOARD_R0, &stripBoard_R0);
+  delay(100);
+  stripBoard_R0.show();
   Serial.println("End Setup");
 }
 //_____________________END__SETUP_______________________________________________________//
@@ -184,13 +213,23 @@ void setup() {
 //_____________________BEGIN__LOOP______________________________________________________//
    void loop()
    {
+     //onePurple(100, GetRow(key), key);
+
+      Serial.println("HI");
+        //onePurple(500, &board::stripBoard_R0, "135 213 163 131");
+        //twoPurple(&stripBoard_R0);
+        //ledPatterns::fullWhite(100, &stripBoard_R0);
+        ledPatterns::rainbow(50, &stripBoard_R0);
+        delay(100);
+        //displayGhost();
+      delay(50000);
        //TURN LED ON WITH CAPACITIVE SENSOR
        /*if (!isActive){
        //loop capacitiveSensor
        pentagramm::loopCapacitiveSensor();
      }*/
      Serial.println("Loop begin OUAHUUU");
-     Serial.println(notReady);
+
      /*if (!isServer) {
        ledPatterns::resetColor(LENGTH_BOARD_R0, &stripBoard_R0);
        ledPatterns::resetColor(LENGTH_BOARD_R1, &stripBoard_R1);
@@ -207,14 +246,15 @@ void setup() {
        Serial.println("Ghost was shown");
        }
      }*/
-
+/*------WICHTIG________
      //String key = "DERP";//rfid().substring(1);
      if (isServer) {
+       Serial.println(rfid().substring(1));
        String key = GetValue(rfid().substring(1));
        Serial.println(key);
 
 
-     if (nextsp.connected() && !key.equals(sentData) && !key.equals("EMPTY") && !notReady) {
+     if (nextsp.connected() && !key.equals(sentData) && !key.equals("EMPTY")) {
          sentData = key;
          Serial.println(sentData);
 
@@ -227,20 +267,20 @@ void setup() {
             }*/
 
             // AS vermutlich noch doof
-            nextsp.send(key);
-            notReady = true;
-            delay(100);
-            Serial.println("111");
+          //  nextsp.send(key);
+          //  delay(100);
+          //  Serial.println("111");
 
-   }
-  }
+  // }
+  //}
    //delay(100);
-   update_rfid();
-    Serial.println("222");
+   //update_rfid();
+    //Serial.println("222");
     // geht laut elisa auch ohne
     //delay(100);
     //ESP.getFreeHeap();
-   nextsp.update();
+   //nextsp.update();
+   //______WICHTIG*/
    Serial.println("END LOOP");
 
 }

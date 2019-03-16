@@ -5,6 +5,7 @@ Adafruit_NeoPixel stripBoard_R1;
 Adafruit_NeoPixel stripBoard_R2;
 Adafruit_NeoPixel stripBoard_R3;
 Adafruit_NeoPixel stripBoard_R4;
+Adafruit_NeoPixel *stripBoardTEST;
 //-----BOARD-----//
 const int ledPIN_R0 = D5;
 const int ledPIN_R1 = D7;
@@ -35,33 +36,23 @@ void setupBoard() {
       stripBoard_R4 = Adafruit_NeoPixel(LENGTH_BOARD_R4, ledPIN_R4, NEO_GRB + NEO_KHZ800);
       delay(100);
 
-      ledPatterns::resetColor(LENGTH_BOARD_R0, &stripBoard_R0);
-      ledPatterns::resetColor(LENGTH_BOARD_R1, &stripBoard_R1);
-      ledPatterns::resetColor(LENGTH_BOARD_R2, &stripBoard_R2);
-      ledPatterns::resetColor(LENGTH_BOARD_R3, &stripBoard_R3);
-      ledPatterns::resetColor(LENGTH_BOARD_R4, &stripBoard_R4);
-      delay(100);
+      //ledPatterns::resetColor(LENGTH_BOARD_R0, &stripBoard_R0);
+      //ledPatterns::resetColor(LENGTH_BOARD_R1, &stripBoard_R1);
+      //ledPatterns::resetColor(LENGTH_BOARD_R2, &stripBoard_R2);
+      //ledPatterns::resetColor(LENGTH_BOARD_R3, &stripBoard_R3);
+      //ledPatterns::resetColor(LENGTH_BOARD_R4, &stripBoard_R4);
+      //delay(100);
 
       //ROW0
       stripBoard_R0.begin();
-      stripBoard_R0.setBrightness(50);
-      stripBoard_R0.show();
       //ROW1
       stripBoard_R1.begin();
-      stripBoard_R1.setBrightness(50);
-      stripBoard_R1.show();
       //ROW2
       stripBoard_R2.begin();
-      stripBoard_R2.setBrightness(50);
-      stripBoard_R2.show();
       //ROW3
       stripBoard_R3.begin();
-      stripBoard_R3.setBrightness(50);
-      stripBoard_R3.show();
       //ROW4
       stripBoard_R4.begin();
-      stripBoard_R4.setBrightness(50);
-      stripBoard_R4.show();
       //TEST
       delay(1000);
     }
