@@ -39,13 +39,18 @@ String sentData = "ANDERS";//to avoid sending the same data again and again
 //_______________BEGIN___ONEPURPLE____________________________________________________//
 void onePurple(uint8_t wait, Adafruit_NeoPixel *strip, String key) {
   Serial.println("OnePurple");
-  for(int i = GetID(key); i <= GetLength(key); i++) {
+  for(int i = GetID(key); i < GetLength(key); i++) {
         strip->setPixelColor(i, strip->Color(148,0,211) );//dark purple
     }
       strip->show();
       delay(wait);
+  for(int i = GetID(key); i < GetLength(key); i++) {
+        strip->setPixelColor(i, strip->Color(0,0,0) );//black
+    }
+      strip->show();
+      delay(wait);
       Serial.println("DarkPurple");
-      ledPatterns::resetColor(GetLength(key), strip);
+      //ledPatterns::resetColor(GetLength(key), strip);
 }
 //_______________END___ONEPURPLE____________________________________________________//
 
@@ -96,10 +101,10 @@ void displayGhost() {
 //_______________BEGIN___CALLBACK___NEXTSP____________________________________________________//
 void onCallback(byte* b,int length){
 Serial.println("Callback called");
-//Serial.println(b[0], HEX);
-//String key = GetKey(b[0]);
+Serial.println(GetKey(b[0]));
+String key = GetKey(b[0]);
 //Serial.println("before onPurple call");
-//onePurple(20, GetRow(key), key);
+onePurple(20, GetRow(key), key);
 /*
   if(b[0] == '1') {
     Serial.println("YES ON");
@@ -125,10 +130,9 @@ Serial.println("Callback called");
     ledPatterns::resetColor(LENGTH_BOARD_R2, &stripBoard_R2);
   }*/
 
-  if(b[0] == '1'){
+  /*if(b[0] == '1'){
     displayGhost();
-  }
-  delay(100);
+  }*/
 }
 //_______________END___CALLBACK___NEXTSP____________________________________________________//
 
