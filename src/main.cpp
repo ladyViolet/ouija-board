@@ -40,7 +40,8 @@ void onePurple(uint8_t wait, Adafruit_NeoPixel *strip, String key) {
   Serial.println("OnePurple");
   for(int i = 0; i < strip->numPixels(); i++) {
     if(i >= GetID(key) && i < GetLength(key)+GetID(key)) {
-      strip->setPixelColor(i, strip->Color(148, 0, 211));
+      strip->setPixelColor(i, strip->Color(0, 0, 255));
+      //strip->setPixelColor(i, strip->Color(148, 0, 211));
     }else{
       strip->setPixelColor(i, strip->Color(0, 0, 0));
     }
