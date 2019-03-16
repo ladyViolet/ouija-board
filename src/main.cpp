@@ -130,8 +130,9 @@ onePurple(20, GetRow(key), key);
   /*if(b[0] == '1'){
     displayGhost();
   }*/
-  Serial.println("Callback finished");
   notReady = false;
+  delay(100);
+  Serial.println("Callback finished");
 }
 //_______________END___CALLBACK___NEXTSP____________________________________________________//
 
@@ -188,6 +189,7 @@ void setup() {
        pentagramm::loopCapacitiveSensor();
      }*/
      Serial.println("Loop begin OUAHUUU");
+     Serial.println(notReady);
      /*if (!isServer) {
        ledPatterns::resetColor(LENGTH_BOARD_R0, &stripBoard_R0);
        ledPatterns::resetColor(LENGTH_BOARD_R1, &stripBoard_R1);
@@ -235,9 +237,9 @@ void setup() {
    update_rfid();
     Serial.println("222");
     // geht laut elisa auch ohne
-    delay(100);
+    //delay(100);
     //ESP.getFreeHeap();
-  nextsp.update();
+   nextsp.update();
    Serial.println("END LOOP");
 
 }
