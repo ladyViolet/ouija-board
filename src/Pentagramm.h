@@ -9,12 +9,6 @@ CapacitiveSensor cs_0_2 = CapacitiveSensor(sender, receiver); // D3 Sender, D2 E
 unsigned long csSum;
 bool isActive;
 
- void setupCapacitiveSensor() {
-  //CAPACITIVESENSOR
-  cs_0_2.set_CS_AutocaL_Millis(0xFFFFFFFF);// turn off autocalibrate on channel 1 - just as an example
-  Serial.println("SetupCapa");
-}
-
 void loopCapacitiveSensor() {
   Serial.println("loop CapacitiveSensor");
   long sensor1 =  cs_0_2.capacitiveSensor(1);
