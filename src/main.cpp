@@ -1,7 +1,8 @@
 #include <Arduino.h>
-#include <Adafruit_NeoPixel.h>
+//#include <Adafruit_NeoPixel.h>
+#include <FastLED.h>
 #include <CapacitiveSensor.h>
-#include "LedPatterns.h"
+//#include "LedPatterns.h"
 #include "nExtSP.h"
 #include "Controller.h"
 #include "Board.h"
@@ -12,16 +13,9 @@
   #include <avr/power.h>
 #endif
 
-//LED
- // This is for Trinket 5V 16MHz, you can remove these three lines if you are not using a Trinket
-#if defined (__AVR_ATtiny85__)
-  if (F_CPU == 16000000) clock_prescale_set(clock_div_1);
-#endif
-// End of trinket special code
-
 using namespace controller;
 using namespace board;
-using namespace ledPatterns;
+//using namespace ledPatterns;
 using namespace pentagramm;
 
 bool ghostshown;
@@ -36,24 +30,8 @@ const int masterPIN = D0;//set to 5V to initialise Master
 String sentData = "";//to avoid sending the same data again and again
 
 //_______________BEGIN___ONEPURPLE____________________________________________________//
-void onePurple(uint8_t wait, Adafruit_NeoPixel *strip, String key) {
+void onePurple(uint8_t wait, CRGB *strip, String key) {
   Serial.println("OnePurple");
-  /*for(int i = 0; i < strip->numPixels(); i++) {
-    if(i >= GetID(key) && i < GetLength(key)+GetID(key)) {
-      strip->setPixelColor(i, strip->Color(0, 0, 255));
-      //strip->setPixelColor(i, strip->Color(148, 0, 211));
-    }else{
-      strip->setPixelColor(i, strip->Color(0, 0, 0));
-    }
-  }*/
-for (int i = 0; i < 10; i++) {
-  stripBoard_R0.setPixelColor(4,stripBoard_R0.Color(255, 0, 0));
-  stripBoard_R0.show();
-  delay(1000);
-  stripBoard_R0.setPixelColor(4,stripBoard_R0.Color(0, 0, 0));
-  stripBoard_R0.show();
-  delay(1000);
-}
 
   delay(wait);
   Serial.println("one Purple END");
@@ -61,14 +39,26 @@ for (int i = 0; i < 10; i++) {
 //_______________END___ONEPURPLE____________________________________________________//
 
 //_______________BEGIN___TWOPURPLE____________________________________________________//
-void twoPurple(Adafruit_NeoPixel *strip) {
+void twoPurple(CRGB *strip) {
   for (int i = 0; i < 10; i++) {
+    /* ol' Adafruit-Lib-Code
     strip->setPixelColor(4,strip->Color(255, 0, 0));
     strip->show();
     delay(1000);
     strip->setPixelColor(4, 0);
     strip->show();
-    delay(1000);
+    delay(1000);*/
+
+    //TEST - with FastLED-Lib
+    // Turn the LED on, then pause
+    strip[i] = CRGB::Red; //(try Amethyst)
+    FastLED.show();
+    delay(500);
+    // Now turn the LED off, then pause
+    strip[i] = CRGB::Black;
+    FastLED.show();
+    delay(500);
+
   }
     Serial.println("one Purple END");
 }
@@ -76,6 +66,7 @@ void twoPurple(Adafruit_NeoPixel *strip) {
 
 //_______________BEGIN___GHOST___________________________________________________//
 void displayGhost() {
+  /*
   //G
   stripBoard_R0.setPixelColor(15, stripBoard_R0.Color(255, 0, 0));
   stripBoard_R0.setPixelColor(16, stripBoard_R0.Color(255, 0, 0));
@@ -115,6 +106,7 @@ void displayGhost() {
   delay(1000);
   stripBoard_R1.setPixelColor(15, stripBoard_R1.Color(0, 0, 0));
   stripBoard_R1.show();
+  */
 }
 //_______________END___GHOST________________________________________________//
 
@@ -125,35 +117,7 @@ Serial.println((char)b[0]);
 //String key = GetKey(b[0]);
 //Serial.println("before onPurple call");
 //onePurple(100, GetRow(key), key);
-/*
-  if(b[0] == '1') {
-    Serial.println("YES ON");
-    ledPatterns::fullWhite(50, &stripBoard_R4);
-    ledPatterns::resetColor(LENGTH_BOARD_R4, &stripBoard_R4);
-  }
 
-  if(b[0] == '2') {
-    Serial.println("Stern ON");
-    ledPatterns::fullWhite(50, &stripBoard_R3);
-    ledPatterns::resetColor(LENGTH_BOARD_R3, &stripBoard_R3);
-  }
-
-  if(b[0] == '3') {
-    Serial.println("GOODBYE ON");
-    ledPatterns::fullWhite(50, &stripBoard_R2);
-    ledPatterns::resetColor(LENGTH_BOARD_R2, &stripBoard_R2);
-  }
-
-  if(b[0] == '4') {
-    Serial.println("GOODBYE ON");
-    ledPatterns::fullWhite(50, &stripBoard_R2);
-    ledPatterns::resetColor(LENGTH_BOARD_R2, &stripBoard_R2);
-  }*/
-
-  /*if(b[0] == '1'){
-    displayGhost();
-  }*/
-  //notReady = false;
   delay(100);
   Serial.println("Callback finished");
 }
@@ -161,7 +125,6 @@ Serial.println((char)b[0]);
 
 //_________________________BEGIN___SETUP_________________________________________________//
 void setup() {
-
   Serial.begin(9600);
   delay(100);
   Serial.println("Setup started");
@@ -199,6 +162,7 @@ void setup() {
   }*/
 
   //board::setupBoard();
+  /* OLD TEST
   pinMode(ledPIN_R0, OUTPUT);
   stripBoard_R0 = Adafruit_NeoPixel(LENGTH_BOARD_R0, ledPIN_R0, NEO_GRB + NEO_KHZ800);
   stripBoard_R0.begin();
@@ -206,6 +170,7 @@ void setup() {
   ledPatterns::resetColor(LENGTH_BOARD_R0, &stripBoard_R0);
   delay(100);
   stripBoard_R0.show();
+  */
   Serial.println("End Setup");
 }
 //_____________________END__SETUP_______________________________________________________//
@@ -213,29 +178,23 @@ void setup() {
 //_____________________BEGIN__LOOP______________________________________________________//
    void loop()
    {
-     //onePurple(100, GetRow(key), key);
+    Serial.println("Loop begin OUAHUUU");
+    //onePurple(100, GetRow(key), key);
 
-      Serial.println("HI");
-        //onePurple(500, &board::stripBoard_R0, "135 213 163 131");
-        //twoPurple(&stripBoard_R0);
-        //ledPatterns::fullWhite(100, &stripBoard_R0);
-        ledPatterns::rainbow(50, &stripBoard_R0);
-        delay(100);
-        //displayGhost();
-      delay(50000);
-       //TURN LED ON WITH CAPACITIVE SENSOR
-       /*if (!isActive){
-       //loop capacitiveSensor
-       pentagramm::loopCapacitiveSensor();
-     }*/
-     Serial.println("Loop begin OUAHUUU");
+    Serial.println("HI");
+    //ledPatterns::rainbow(50, &stripBoard_R0);
+    delay(100);
+    //displayGhost();
+    twoPurple(stripBoard_R0);
+    delay(50000);
+
+      //TURN LED ON WITH CAPACITIVE SENSOR
+      /*if (!isActive){
+      //loop capacitiveSensor
+      pentagramm::loopCapacitiveSensor();
+      }*/
 
      /*if (!isServer) {
-       ledPatterns::resetColor(LENGTH_BOARD_R0, &stripBoard_R0);
-       ledPatterns::resetColor(LENGTH_BOARD_R1, &stripBoard_R1);
-       ledPatterns::resetColor(LENGTH_BOARD_R2, &stripBoard_R2);
-       ledPatterns::resetColor(LENGTH_BOARD_R3, &stripBoard_R3);
-       ledPatterns::resetColor(LENGTH_BOARD_R4, &stripBoard_R4);
        Serial.println("Colors reset");
      }*/
 
@@ -246,7 +205,8 @@ void setup() {
        Serial.println("Ghost was shown");
        }
      }*/
-/*------WICHTIG________
+
+/*______________WICHTIG________
      //String key = "DERP";//rfid().substring(1);
      if (isServer) {
        Serial.println(rfid().substring(1));
@@ -278,10 +238,9 @@ void setup() {
     //Serial.println("222");
     // geht laut elisa auch ohne
     //delay(100);
-    //ESP.getFreeHeap();
    //nextsp.update();
-   //______WICHTIG*/
-   Serial.println("END LOOP");
+   //____END__WICHTIG*/
 
+   Serial.println("END LOOP");
 }
 //____________________________END____LOOP_____________________________________________//
