@@ -36,25 +36,20 @@ const int masterPIN = D0;//set to 5V to initialise Master
 String sentData = "";//to avoid sending the same data again and again
 
 //_______________BEGIN___ONEPURPLE____________________________________________________//
-void onePurple(uint8_t wait, Adafruit_NeoPixel *strip, String key) {
+void onePurple(int wait, Adafruit_NeoPixel *strip, String key) {
   Serial.println("OnePurple");
-  /*for(int i = 0; i < strip->numPixels(); i++) {
+  //Serial.println(strip->numPixels());
+  for(int i = 0; i < strip->numPixels(); i++) {
     if(i >= GetID(key) && i < GetLength(key)+GetID(key)) {
+      Serial.println(GetID(key));
+      Serial.println(GetLength(key)+GetID(key));
       strip->setPixelColor(i, strip->Color(0, 0, 255));
       //strip->setPixelColor(i, strip->Color(148, 0, 211));
     }else{
       strip->setPixelColor(i, strip->Color(0, 0, 0));
     }
-  }*/
-for (int i = 0; i < 10; i++) {
-  stripBoard_R0.setPixelColor(4,stripBoard_R0.Color(255, 0, 0));
-  stripBoard_R0.show();
-  delay(1000);
-  stripBoard_R0.setPixelColor(4,stripBoard_R0.Color(0, 0, 0));
-  stripBoard_R0.show();
-  delay(1000);
-}
-
+  }
+  strip->show();
   delay(wait);
   Serial.println("one Purple END");
 }
@@ -62,7 +57,7 @@ for (int i = 0; i < 10; i++) {
 
 //_______________BEGIN___TWOPURPLE____________________________________________________//
 void twoPurple(Adafruit_NeoPixel *strip) {
-  for (int i = 0; i < 10; i++) {
+  for (int i = 0; i < 3; i++) {
     strip->setPixelColor(4,strip->Color(255, 0, 0));
     strip->show();
     delay(1000);
@@ -81,40 +76,31 @@ void displayGhost() {
   stripBoard_R0.setPixelColor(16, stripBoard_R0.Color(255, 0, 0));
   stripBoard_R0.show();
   delay(1000);
-  stripBoard_R0.setPixelColor(15, stripBoard_R0.Color(0, 0, 0));
-  stripBoard_R0.setPixelColor(16, stripBoard_R0.Color(0, 0, 0));
-  //stripBoard_R0.show();
+  ledPatterns::resetColor(LENGTH_BOARD_R0, &stripBoard_R0);
   //H
   stripBoard_R0.setPixelColor(13, stripBoard_R0.Color(255, 0, 0));
   stripBoard_R0.setPixelColor(14, stripBoard_R0.Color(255, 0, 0));
   stripBoard_R0.show();
   delay(1000);
-  stripBoard_R0.setPixelColor(13, stripBoard_R0.Color(0, 0, 0));
-  stripBoard_R0.setPixelColor(14, stripBoard_R0.Color(0, 0, 0));
-  stripBoard_R0.show();
+  ledPatterns::resetColor(LENGTH_BOARD_R0, &stripBoard_R0);
   //O
   stripBoard_R1.setPixelColor(25, stripBoard_R1.Color(255, 0, 0));
   stripBoard_R1.setPixelColor(26, stripBoard_R1.Color(255, 0, 0));
   stripBoard_R1.show();
   delay(1000);
-  stripBoard_R1.setPixelColor(25, stripBoard_R1.Color(0, 0, 0));
-  stripBoard_R1.setPixelColor(26, stripBoard_R1.Color(0, 0, 0));
-  //stripBoard_R1.show();
+  ledPatterns::resetColor(LENGTH_BOARD_R1, &stripBoard_R1);
   //S
   stripBoard_R1.setPixelColor(16, stripBoard_R1.Color(255, 0, 0));
   stripBoard_R1.setPixelColor(17, stripBoard_R1.Color(255, 0, 0));
   stripBoard_R1.show();
   delay(1000);
-  stripBoard_R1.setPixelColor(16, stripBoard_R1.Color(0, 0, 0));
-  stripBoard_R1.setPixelColor(17, stripBoard_R1.Color(0, 0, 0));
-  //stripBoard_R1.show();
+    ledPatterns::resetColor(LENGTH_BOARD_R1, &stripBoard_R1);
   //T
   stripBoard_R1.setPixelColor(14, stripBoard_R1.Color(255, 0, 0));
   stripBoard_R1.setPixelColor(15, stripBoard_R1.Color(255, 0, 0));
   stripBoard_R1.show();
   delay(1000);
-  stripBoard_R1.setPixelColor(15, stripBoard_R1.Color(0, 0, 0));
-  stripBoard_R1.show();
+  ledPatterns::resetColor(LENGTH_BOARD_R1, &stripBoard_R1);
 }
 //_______________END___GHOST________________________________________________//
 
@@ -154,6 +140,7 @@ Serial.println((char)b[0]);
     displayGhost();
   }*/
   //notReady = false;
+
   delay(100);
   Serial.println("Callback finished");
 }
@@ -194,18 +181,56 @@ void setup() {
 
   //CLIENT
   if(!isServer){
-    board::setupBoard();
+
     Serial.println("board setup ended");
   }*/
-
-  //board::setupBoard();
+  //SETUP BOARD
+  //R0
   pinMode(ledPIN_R0, OUTPUT);
   stripBoard_R0 = Adafruit_NeoPixel(LENGTH_BOARD_R0, ledPIN_R0, NEO_GRB + NEO_KHZ800);
   stripBoard_R0.begin();
   delay(100);
-  ledPatterns::resetColor(LENGTH_BOARD_R0, &stripBoard_R0);
+  //R1
+  pinMode(ledPIN_R1, OUTPUT);
+  stripBoard_R1 = Adafruit_NeoPixel(LENGTH_BOARD_R1, ledPIN_R1, NEO_GRB + NEO_KHZ800);
+  stripBoard_R1.begin();
   delay(100);
-  stripBoard_R0.show();
+  //R2
+  pinMode(ledPIN_R2, OUTPUT);
+  stripBoard_R2 = Adafruit_NeoPixel(LENGTH_BOARD_R2, ledPIN_R2, NEO_GRB + NEO_KHZ800);
+  stripBoard_R2.begin();
+  delay(100);
+  //R3
+  pinMode(ledPIN_R3, OUTPUT);
+  stripBoard_R3 = Adafruit_NeoPixel(LENGTH_BOARD_R3, ledPIN_R3, NEO_GRB + NEO_KHZ800);
+  stripBoard_R3.begin();
+  delay(100);
+  //R4
+  pinMode(ledPIN_R4, OUTPUT);
+  stripBoard_R4 = Adafruit_NeoPixel(LENGTH_BOARD_R4, ledPIN_R4, NEO_GRB + NEO_KHZ800);
+  stripBoard_R4.begin();
+  delay(100);
+  //set all Colors to black
+  ledPatterns::resetColor(LENGTH_BOARD_R0, &stripBoard_R0);
+  ledPatterns::resetColor(LENGTH_BOARD_R1, &stripBoard_R1);
+  ledPatterns::resetColor(LENGTH_BOARD_R2, &stripBoard_R2);
+  ledPatterns::resetColor(LENGTH_BOARD_R3, &stripBoard_R3);
+  ledPatterns::resetColor(LENGTH_BOARD_R4, &stripBoard_R4);
+
+  Serial.println(GetID("208 97 210 131"));
+  Serial.println(GetLength("208 97 210 131")+GetID("208 97 210 131"));
+  Serial.println(GetID("68 197 208 131"));
+  Serial.println(GetLength("68 197 208 131")+GetID("68 197 208 131"));
+  Serial.println(GetID("70 199 167 131"));
+  Serial.println(GetLength("70 199 167 131")+GetID("70 199 167 131"));
+
+  Serial.println(GetID("171 253 130 195"));
+  Serial.println(GetLength("171 253 130 195")+GetID("171 253 130 195"));
+  Serial.println(GetID("77 245 130 195"));
+  Serial.println(GetLength("77 245 130 195")+GetID("77 245 130 195"));
+  Serial.println(GetID("227 154 131 195"));
+  Serial.println(GetLength("227 154 131 195")+GetID("227 154 131 195"));
+
   Serial.println("End Setup");
 }
 //_____________________END__SETUP_______________________________________________________//
@@ -215,28 +240,42 @@ void setup() {
    {
      //onePurple(100, GetRow(key), key);
 
-      Serial.println("HI");
+      //Serial.println("HI");
         //onePurple(500, &board::stripBoard_R0, "135 213 163 131");
         //twoPurple(&stripBoard_R0);
+        //twoPurple(&stripBoard_R1);
+        //twoPurple(&stripBoard_R2);
+        //twoPurple(&stripBoard_R3);
+        //twoPurple(&stripBoard_R4);
         //ledPatterns::fullWhite(100, &stripBoard_R0);
-        ledPatterns::rainbow(50, &stripBoard_R0);
+
+      /*
+        ledPatterns::rainbow(5, &stripBoard_R0);
+        ledPatterns::resetColor(LENGTH_BOARD_R0, &stripBoard_R0);
+        ledPatterns::rainbow(5, &stripBoard_R1);
+        ledPatterns::resetColor(LENGTH_BOARD_R1, &stripBoard_R1);
+        ledPatterns::rainbow(5, &stripBoard_R2);
+        ledPatterns::resetColor(LENGTH_BOARD_R2, &stripBoard_R2);
+        ledPatterns::rainbow(5, &stripBoard_R3);
+        ledPatterns::resetColor(LENGTH_BOARD_R3, &stripBoard_R3);
+        ledPatterns::rainbow(5, &stripBoard_R4);
+        ledPatterns::resetColor(LENGTH_BOARD_R4, &stripBoard_R4);
+      */
+
+        onePurple(100, GetRow("65 202 164 131"), "65 202 164 131");
+        delay(100);
+        onePurple(100, GetRow("135 213 163 131"), "135 213 163 131");
         delay(100);
         //displayGhost();
-      delay(50000);
        //TURN LED ON WITH CAPACITIVE SENSOR
        /*if (!isActive){
        //loop capacitiveSensor
        pentagramm::loopCapacitiveSensor();
      }*/
-     Serial.println("Loop begin OUAHUUU");
+     //Serial.println("Loop begin OUAHUUU");
 
      /*if (!isServer) {
-       ledPatterns::resetColor(LENGTH_BOARD_R0, &stripBoard_R0);
-       ledPatterns::resetColor(LENGTH_BOARD_R1, &stripBoard_R1);
-       ledPatterns::resetColor(LENGTH_BOARD_R2, &stripBoard_R2);
-       ledPatterns::resetColor(LENGTH_BOARD_R3, &stripBoard_R3);
-       ledPatterns::resetColor(LENGTH_BOARD_R4, &stripBoard_R4);
-       Serial.println("Colors reset");
+
      }*/
 
      /*if(!isServer){
@@ -281,7 +320,7 @@ void setup() {
     //ESP.getFreeHeap();
    //nextsp.update();
    //______WICHTIG*/
-   Serial.println("END LOOP");
+   //Serial.println("END LOOP");
 
 }
 //____________________________END____LOOP_____________________________________________//

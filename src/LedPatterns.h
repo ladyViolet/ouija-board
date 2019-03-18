@@ -20,15 +20,9 @@ namespace ledPatterns {
     for (int i=0; i<length;i++) {
       strip->setPixelColor(i, 0);
     }
-    //strip->show();
+    strip->show();
   }
 
-  /*void resetColor(int length, Adafruit_NeoPixel strip) {
-    for (int i=0; i<length;i++) {
-      strip.setPixelColor(i, strip.Color(0,0,0));
-    }
-    strip.show();
-  }*/
 
   //LED RAINBOW Pattern
   void rainbow(uint32_t wait, Adafruit_NeoPixel *strip) {
