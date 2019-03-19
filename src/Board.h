@@ -35,11 +35,11 @@ void setupBoard() {
       stripBoard_R4 = Adafruit_NeoPixel(LENGTH_BOARD_R4, ledPIN_R4, NEO_GRB + NEO_KHZ800);
       delay(100);
 
-      ledPatterns::resetColor(LENGTH_BOARD_R0, &stripBoard_R0);
-      ledPatterns::resetColor(LENGTH_BOARD_R1, &stripBoard_R1);
-      ledPatterns::resetColor(LENGTH_BOARD_R2, &stripBoard_R2);
-      ledPatterns::resetColor(LENGTH_BOARD_R3, &stripBoard_R3);
-      ledPatterns::resetColor(LENGTH_BOARD_R4, &stripBoard_R4);
+      //ledPatterns::resetColor(LENGTH_BOARD_R0, &stripBoard_R0);
+      //ledPatterns::resetColor(LENGTH_BOARD_R1, &stripBoard_R1);
+      //ledPatterns::resetColor(LENGTH_BOARD_R2, &stripBoard_R2);
+      //ledPatterns::resetColor(LENGTH_BOARD_R3, &stripBoard_R3);
+      //ledPatterns::resetColor(LENGTH_BOARD_R4, &stripBoard_R4);
       delay(100);
 
       //ROW0
@@ -65,5 +65,8 @@ void setupBoard() {
       //TEST
       delay(1000);
     }
+  int getLength (Adafruit_NeoPixel){
+    
+  }
 
 }

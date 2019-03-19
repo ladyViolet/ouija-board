@@ -221,10 +221,10 @@ void setup() {
             //ledPatterns::resetColor(LENGTH_CONTROLLER, &strip_Controller);
             Serial.println("000");
 
-            /*if (GetValue(key) == "1") {
+            if (GetValue(key) == "1") {
               //controller::activateMotor();
               Serial.println("444");
-            }*/
+            }
 
             // AS vermutlich noch doof
             nextsp.send(key);

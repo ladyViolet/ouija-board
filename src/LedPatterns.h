@@ -16,7 +16,7 @@ namespace ledPatterns {
     return strip->Color(WheelPos * 3, 255 - WheelPos * 3, 0);
   }
 
-  void resetColor(int length, Adafruit_NeoPixel *strip) {
+  void Color(int length, Adafruit_NeoPixel *strip) {
     for (int i=0; i<length;i++) {
       strip->setPixelColor(i, strip->Color(0,0,0));
     }
