@@ -100,6 +100,54 @@ Serial.println((char)b[0]);
     ledPatterns::resetColor(LENGTH_BOARD_R2, &stripBoard_R2);
   }
 
+  if (b[0] == 'A') {
+    stripBoard_R0.setPixelColor(28, stripBoard_R0.Color(255, 0, 0));
+    stripBoard_R0.setPixelColor(29, stripBoard_R0.Color(255, 0, 0));
+    stripBoard_R0.show();
+    delay(500);
+    ledPatterns::resetColor(LENGTH_BOARD_R0, &stripBoard_R0);
+  }
+
+  if (b[0] == 'B') {
+    stripBoard_R0.setPixelColor(25, stripBoard_R0.Color(255, 0, 0));
+    stripBoard_R0.setPixelColor(26, stripBoard_R0.Color(255, 0, 0));
+    stripBoard_R0.show();
+    delay(500);
+    ledPatterns::resetColor(LENGTH_BOARD_R0, &stripBoard_R0);
+  }
+
+  if (b[0] == 'C') {
+    stripBoard_R0.setPixelColor(23, stripBoard_R0.Color(255, 0, 0));
+    stripBoard_R0.setPixelColor(24, stripBoard_R0.Color(255, 0, 0));
+    stripBoard_R0.show();
+    delay(500);
+    ledPatterns::resetColor(LENGTH_BOARD_R0, &stripBoard_R0);
+  }
+
+  if (b[0] == 'D') {
+    stripBoard_R0.setPixelColor(21, stripBoard_R0.Color(255, 0, 0));
+    stripBoard_R0.setPixelColor(22, stripBoard_R0.Color(255, 0, 0));
+    stripBoard_R0.show();
+    delay(500);
+    ledPatterns::resetColor(LENGTH_BOARD_R0, &stripBoard_R0);
+  }
+
+  if (b[0] == 'E') {
+    stripBoard_R0.setPixelColor(19, stripBoard_R0.Color(255, 0, 0));
+    stripBoard_R0.setPixelColor(20, stripBoard_R0.Color(255, 0, 0));
+    stripBoard_R0.show();
+    delay(500);
+    ledPatterns::resetColor(LENGTH_BOARD_R0, &stripBoard_R0);
+  }
+
+  if (b[0] == 'F') {
+    stripBoard_R0.setPixelColor(17, stripBoard_R0.Color(255, 0, 0));
+    stripBoard_R0.setPixelColor(18, stripBoard_R0.Color(255, 0, 0));
+    stripBoard_R0.show();
+    delay(500);
+    ledPatterns::resetColor(LENGTH_BOARD_R0, &stripBoard_R0);
+  }
+
   if (b[0] == 'G') {
     stripBoard_R0.setPixelColor(15, stripBoard_R0.Color(255, 0, 0));
     stripBoard_R0.setPixelColor(16, stripBoard_R0.Color(255, 0, 0));
@@ -116,28 +164,53 @@ Serial.println((char)b[0]);
     ledPatterns::resetColor(LENGTH_BOARD_R0, &stripBoard_R0);
   }
 
-  if (b[0] == 'O') {
-    stripBoard_R1.setPixelColor(25, stripBoard_R1.Color(255, 0, 0));
-    stripBoard_R1.setPixelColor(26, stripBoard_R1.Color(255, 0, 0));
-    stripBoard_R1.show();
+  if (b[0] == 'I') {
+    stripBoard_R0.setPixelColor(11, stripBoard_R0.Color(255, 0, 0));
+    stripBoard_R0.setPixelColor(12, stripBoard_R0.Color(255, 0, 0));
+    stripBoard_R0.show();
     delay(500);
-    ledPatterns::resetColor(LENGTH_BOARD_R1, &stripBoard_R1);
+    ledPatterns::resetColor(LENGTH_BOARD_R0, &stripBoard_R0);
   }
 
-  if (b[0] == 'S') {
-    stripBoard_R1.setPixelColor(16, stripBoard_R1.Color(255, 0, 0));
-    stripBoard_R1.setPixelColor(17, stripBoard_R1.Color(255, 0, 0));
-    stripBoard_R1.show();
+  if (b[0] == 'J') {
+    stripBoard_R0.setPixelColor(9, stripBoard_R0.Color(255, 0, 0));
+    stripBoard_R0.setPixelColor(10, stripBoard_R0.Color(255, 0, 0));
+    stripBoard_R0.show();
     delay(500);
-    ledPatterns::resetColor(LENGTH_BOARD_R1, &stripBoard_R1);
+    ledPatterns::resetColor(LENGTH_BOARD_R0, &stripBoard_R0);
   }
 
-  if (b[0] == 'T') {
-    stripBoard_R1.setPixelColor(14, stripBoard_R1.Color(255, 0, 0));
-    stripBoard_R1.setPixelColor(15, stripBoard_R1.Color(255, 0, 0));
-    stripBoard_R1.show();
+  if (b[0] == 'K') {
+    stripBoard_R0.setPixelColor(7, stripBoard_R0.Color(255, 0, 0));
+    stripBoard_R0.setPixelColor(8, stripBoard_R0.Color(255, 0, 0));
+    stripBoard_R0.show();
     delay(500);
-    ledPatterns::resetColor(LENGTH_BOARD_R1, &stripBoard_R1);
+    ledPatterns::resetColor(LENGTH_BOARD_R0, &stripBoard_R0);
+  }
+
+  if (b[0] == 'L') {
+    stripBoard_R0.setPixelColor(5, stripBoard_R0.Color(255, 0, 0));
+    stripBoard_R0.setPixelColor(6, stripBoard_R0.Color(255, 0, 0));
+    stripBoard_R0.show();
+    delay(500);
+    ledPatterns::resetColor(LENGTH_BOARD_R0, &stripBoard_R0);
+  }
+
+  if (b[0] == 'M') {
+    stripBoard_R0.setPixelColor(2, stripBoard_R0.Color(255, 0, 0));
+    stripBoard_R0.setPixelColor(3, stripBoard_R0.Color(255, 0, 0));
+    stripBoard_R0.setPixelColor(4, stripBoard_R0.Color(255, 0, 0));
+    stripBoard_R0.show();
+    delay(500);
+    ledPatterns::resetColor(LENGTH_BOARD_R0, &stripBoard_R0);
+  }
+
+  if (b[0] == 'N') {
+    stripBoard_R0.setPixelColor(0, stripBoard_R0.Color(255, 0, 0));
+    stripBoard_R0.setPixelColor(1, stripBoard_R0.Color(255, 0, 0));
+    stripBoard_R0.show();
+    delay(500);
+    ledPatterns::resetColor(LENGTH_BOARD_R0, &stripBoard_R0);
   }
 
   /*if(b[0] == '1'){
