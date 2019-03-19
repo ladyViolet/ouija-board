@@ -1,5 +1,5 @@
 struct KeyValue{
-  KeyValue(String k, String v, int id, int l, Adafruit_NeoPixel *r){
+  KeyValue(String k, String v, int id, int l, NeoPixelBus *r){
     key = k;
     value = v;
     id_stripe = id;
@@ -10,7 +10,7 @@ struct KeyValue{
   String value;
   int id_stripe;
   int length;
-  Adafruit_NeoPixel *row;
+  NeoPixelBus *row;
 };
 
 KeyValue* rfidTags[30] = {
@@ -92,7 +92,7 @@ return -1;
 }
 
 //RETURNS number of led row in which key is located
-Adafruit_NeoPixel *GetRow(String key){
+NeoPixelBus *GetRow(String key){
   for(auto i = 0; i< 30; i++){
     if(rfidTags[i]->key.equals(key)){
       return rfidTags[i]->row;

@@ -1,9 +1,9 @@
 namespace controller {
 
 //LED
+const uint16_t LENGTH_CONTROLLER = 3;
 const int ledPIN_Controller = D8;
-Adafruit_NeoPixel strip_Controller;
-static const int LENGTH_CONTROLLER = 3;//length of LED Strip
+NeoPixelBus<NeoGrbFeature, Neo800KbpsMethod> strip_Controller(LENGTH_CONTROLLER, ledPIN_Controller);
 
 //MOTOR
 const int motorPin = D5; //Vibration on Controller
