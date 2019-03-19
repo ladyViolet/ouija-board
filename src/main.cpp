@@ -42,31 +42,31 @@ void displayGhost() {
   stripBoard_R0.setPixelColor(15, stripBoard_R0.Color(255, 0, 0));
   stripBoard_R0.setPixelColor(16, stripBoard_R0.Color(255, 0, 0));
   stripBoard_R0.show();
-  delay(1000);
+  delay(500);
   ledPatterns::resetColor(LENGTH_BOARD_R0, &stripBoard_R0);
   //H
   stripBoard_R0.setPixelColor(13, stripBoard_R0.Color(255, 0, 0));
   stripBoard_R0.setPixelColor(14, stripBoard_R0.Color(255, 0, 0));
   stripBoard_R0.show();
-  delay(1000);
+  delay(500);
   ledPatterns::resetColor(LENGTH_BOARD_R0, &stripBoard_R0);
   //O
   stripBoard_R1.setPixelColor(25, stripBoard_R1.Color(255, 0, 0));
   stripBoard_R1.setPixelColor(26, stripBoard_R1.Color(255, 0, 0));
   stripBoard_R1.show();
-  delay(1000);
+  delay(500);
   ledPatterns::resetColor(LENGTH_BOARD_R1, &stripBoard_R1);
   //S
   stripBoard_R1.setPixelColor(16, stripBoard_R1.Color(255, 0, 0));
   stripBoard_R1.setPixelColor(17, stripBoard_R1.Color(255, 0, 0));
   stripBoard_R1.show();
-  delay(1000);
+  delay(500);
   ledPatterns::resetColor(LENGTH_BOARD_R1, &stripBoard_R1);
   //T
   stripBoard_R1.setPixelColor(14, stripBoard_R1.Color(255, 0, 0));
   stripBoard_R1.setPixelColor(15, stripBoard_R1.Color(255, 0, 0));
   stripBoard_R1.show();
-  delay(1000);
+  delay(500);
   ledPatterns::resetColor(LENGTH_BOARD_R1, &stripBoard_R1);
 }
 //_______________END___GHOST________________________________________________//
@@ -100,6 +100,46 @@ Serial.println((char)b[0]);
     ledPatterns::resetColor(LENGTH_BOARD_R2, &stripBoard_R2);
   }
 
+  if (b[0] == 'G') {
+    stripBoard_R0.setPixelColor(15, stripBoard_R0.Color(255, 0, 0));
+    stripBoard_R0.setPixelColor(16, stripBoard_R0.Color(255, 0, 0));
+    stripBoard_R0.show();
+    delay(500);
+    ledPatterns::resetColor(LENGTH_BOARD_R0, &stripBoard_R0);
+  }
+
+  if (b[0] == 'H') {
+    stripBoard_R0.setPixelColor(13, stripBoard_R0.Color(255, 0, 0));
+    stripBoard_R0.setPixelColor(14, stripBoard_R0.Color(255, 0, 0));
+    stripBoard_R0.show();
+    delay(500);
+    ledPatterns::resetColor(LENGTH_BOARD_R0, &stripBoard_R0);
+  }
+
+  if (b[0] == 'O') {
+    stripBoard_R1.setPixelColor(25, stripBoard_R1.Color(255, 0, 0));
+    stripBoard_R1.setPixelColor(26, stripBoard_R1.Color(255, 0, 0));
+    stripBoard_R1.show();
+    delay(500);
+    ledPatterns::resetColor(LENGTH_BOARD_R1, &stripBoard_R1);
+  }
+
+  if (b[0] == 'S') {
+    stripBoard_R1.setPixelColor(16, stripBoard_R1.Color(255, 0, 0));
+    stripBoard_R1.setPixelColor(17, stripBoard_R1.Color(255, 0, 0));
+    stripBoard_R1.show();
+    delay(500);
+    ledPatterns::resetColor(LENGTH_BOARD_R1, &stripBoard_R1);
+  }
+
+  if (b[0] == 'T') {
+    stripBoard_R1.setPixelColor(14, stripBoard_R1.Color(255, 0, 0));
+    stripBoard_R1.setPixelColor(15, stripBoard_R1.Color(255, 0, 0));
+    stripBoard_R1.show();
+    delay(500);
+    ledPatterns::resetColor(LENGTH_BOARD_R1, &stripBoard_R1);
+  }
+
   /*if(b[0] == '1'){
     displayGhost();
   }*/
@@ -113,6 +153,8 @@ Serial.println((char)b[0]);
 void setup() {
 
   Serial.begin(9600);
+  //
+  Serial.flush();
   delay(100);
   Serial.println("Setup started");
   pinMode(masterPIN, INPUT); //server / client switch
@@ -235,8 +277,6 @@ void setup() {
        Serial.println(rfid().substring(1));
        String key = GetValue(rfid().substring(1));
        Serial.println(key);
-
-
 
       while (!nextsp.connected()){
         Serial.printf("x");
