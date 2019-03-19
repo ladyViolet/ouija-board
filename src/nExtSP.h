@@ -28,6 +28,7 @@ class NEXTSP{
             _isMaster = isMaster;
             _isConnected = false;
             _counter = 0;
+            _flipped = false;
             _receivedData = (byte*)malloc(250 * sizeof(byte));
 
 
@@ -97,13 +98,16 @@ class NEXTSP{
                     }
 
                     _counter = 0;
-                    break;
+                    _flipped = false;
+                    continue;
                 }
-                if(b > 0b00001111){
+                if(_flipped){
                     _receivedData[_counter] = _receivedData[_counter]|b;
                     _counter++;
+                    _flipped = !_flipped;
                 }else{
                     _receivedData[_counter] = b;
+                    _flipped = !_flipped;
                 }
             }
         }
@@ -159,6 +163,7 @@ class NEXTSP{
         int _isMaster;
         int _counter;
         bool _isConnected;
+        bool _flipped;
         byte * _receivedData;
         void(*_onReceive)(byte*,int);
 };
