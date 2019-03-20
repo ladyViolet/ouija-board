@@ -16,9 +16,8 @@ void loopCapacitiveSensor() {
      if(sensor1 >= 1000)  {
       Serial.println("CapacitiveSensor activated");
       //if CapSensor is touched once, show Rainbow on LEDs
-      ledPatterns::stripON(50, &controller::strip_Controller);
+      digitalWrite(controller::ledPIN_Controller, HIGH);
       isActive = true;
-      Serial.println("Rainbow called");
      }
    }
 }

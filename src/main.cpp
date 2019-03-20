@@ -347,16 +347,13 @@ void setup() {
     pinMode(motorPin, OUTPUT);
     //LED
     pinMode(ledPIN_Controller, OUTPUT);
-    strip_Controller = Adafruit_NeoPixel(LENGTH_CONTROLLER, ledPIN_Controller, NEO_GRB + NEO_KHZ800);
-    strip_Controller.begin();
-    strip_Controller.show();
-    Serial.println("controller setup ended");
     //CAPACITIVESENSOR
     cs_0_2.set_CS_AutocaL_Millis(0xFFFFFFFF);// turn off autocalibrate on channel 1 - just as an example
     Serial.println("SetupCapa");
     //RFID READER
     setup_rfid();
     Serial.println("setup rfid success");
+
   }
 
   //CLIENT
@@ -410,9 +407,9 @@ void setup() {
      //TURN LED ON WITH CAPACITIVE SENSOR
 
      if (isServer) {
-       /*if (!isActive){
+       if (!isActive){
          pentagramm::loopCapacitiveSensor();
-       }*/
+       }
        //GET KEY FROM RFID READER
        Serial.println(rfid().substring(1));
        String key = GetValue(rfid().substring(1));
