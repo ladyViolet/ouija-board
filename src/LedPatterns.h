@@ -1,4 +1,6 @@
+//CODE FOR LED PATTERNS TO BE USED IN MAIN
 namespace ledPatterns {
+
 //LED WHEEL
   // Input a value 0 to 255 to get a color value.
   // The colours are a transition r - g - b - back to r.
@@ -34,7 +36,7 @@ namespace ledPatterns {
     }
   }
 
-//displays a purple wipe two times
+//displays a purple wipe one time
   void colorWipe(uint8_t wait, Adafruit_NeoPixel *strip) {
       for(uint16_t i=0; i<strip->numPixels(); i++) {
         strip->setPixelColor(i, strip->Color(138,43,226));
@@ -43,18 +45,12 @@ namespace ledPatterns {
       }
   }
 
-  void fullWhite(uint32_t wait, Adafruit_NeoPixel *strip) {
-    for(uint16_t i=0; i<30; i++) {
-          strip->setPixelColor(i, strip->Color(138,43,226));//blueviolet
-      }
-        strip->show();
-        delay(wait);
-        for(uint16_t i = 0; i < 30; i++) {
-              strip->setPixelColor(i, 0);//black
-          }
-            strip->show();
-            delay(wait);
-            Serial.println("end full white");
+  void stripON(uint8_t wait, Adafruit_NeoPixel *strip) {
+    for(uint16_t i=0; i<strip->numPixels(); i++) {
+      strip->setPixelColor(i, strip->Color(138,43,226));
+    }
+    strip->show();
+    delay(wait);
   }
 
 }

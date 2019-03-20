@@ -3,7 +3,7 @@ namespace controller {
 //LED
 const int ledPIN_Controller = D8;
 Adafruit_NeoPixel strip_Controller;
-static const int LENGTH_CONTROLLER = 3;//length of LED Strip
+static const int LENGTH_CONTROLLER = 2;//length of LED Strip
 
 //MOTOR
 const int motorPin = D5; //Vibration on Controller

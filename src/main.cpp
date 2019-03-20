@@ -13,7 +13,7 @@
 #endif
 
 //LED
- // This is for Trinket 5V 16MHz, you can remove these three lines if you are not using a Trinket
+// This is for Trinket 5V 16MHz, you can remove these three lines if you are not using a Trinket
 #if defined (__AVR_ATtiny85__)
   if (F_CPU == 16000000) clock_prescale_set(clock_div_1);
 #endif
@@ -24,19 +24,16 @@ using namespace board;
 using namespace ledPatterns;
 using namespace pentagramm;
 
-bool ghostshown;
-
 //RFID-READER
 int mode = 3;
 //nExtSP
 NEXTSP nextsp; //communication between Esp's
-bool isServer;//if true Esp is Master
-bool notReady;//to avoid blocking data
+bool isServer;//if true --> Esp is Master
 const int masterPIN = D0;//set to 5V to initialise Master
 String sentData = "";//to avoid sending the same data again and again
 
 
-//_______________BEGIN___GHOST___________________________________________________//
+//_______________BEGIN___GHOST________________________________________________//
 void displayGhost() {
   //G
   stripBoard_R0.setPixelColor(15, stripBoard_R0.Color(255, 0, 0));
@@ -69,7 +66,7 @@ void displayGhost() {
   delay(500);
   ledPatterns::resetColor(LENGTH_BOARD_R1, &stripBoard_R1);
 }
-//_______________END___GHOST________________________________________________//
+//_______________END___GHOST__________________________________________________//
 
 //_______________BEGIN___DISCO________________________________________________//
 //FÜR ANDI
@@ -105,15 +102,11 @@ stripBoard_R1.show();
 delay(500);
 ledPatterns::resetColor(LENGTH_BOARD_R1, &stripBoard_R1);
 }
-//_______________END___DISCO________________________________________________//
+//_______________END___DISCO__________________________________________________//
 
-//_______________BEGIN___CALLBACK___NEXTSP____________________________________________________//
+//_______________BEGIN___CALLBACK___NEXTSP____________________________________//
 void onCallback(byte* b,int length) {
 Serial.println("Callback called");
-//Serial.println((char)b[0]);
-
-//ledPatterns::resetColor(LENGTH_BOARD_R0, &stripBoard_R0);
-//ledPatterns::resetColor(LENGTH_BOARD_R1, &stripBoard_R1);
 
   if(b[0] == '1') {
     Serial.println("YES ON");
@@ -127,12 +120,6 @@ Serial.println("Callback called");
     ledPatterns::resetColor(LENGTH_BOARD_R3, &stripBoard_R3);
     playDisco();
   }
-
-  /*if(b[0] == '3') {
-    Serial.println("GOODBYE ON");
-    ledPatterns::rainbow(5, 50, &stripBoard_R2);
-    ledPatterns::resetColor(LENGTH_BOARD_R2, 50, &stripBoard_R2);
-  }*/
 
   if(b[0] == '4') {
     Serial.println("GOODBYE ON");
@@ -323,24 +310,15 @@ Serial.println("Callback called");
     stripBoard_R1.show();
   }
 
-  /*if(b[0] == '1'){
-    displayGhost();
-  }*/
   delay(500);
-  Serial.println("000");
-  //
-  Serial.println("111");
-  //ledPatterns::resetColor(LENGTH_BOARD_R1, &stripBoard_R1);
-  Serial.println("222");
   Serial.println("Callback finished");
 }
-//_______________END___CALLBACK___NEXTSP____________________________________________________//
+//_______________END___CALLBACK___NEXTSP______________________________________//
 
-//_________________________BEGIN___SETUP_________________________________________________//
+//_______________BEGIN___SETUP________________________________________________//
 void setup() {
 
   Serial.begin(9600);
-  //
   Serial.flush();
   delay(100);
   Serial.println("Setup started");
@@ -372,7 +350,6 @@ void setup() {
     strip_Controller = Adafruit_NeoPixel(LENGTH_CONTROLLER, ledPIN_Controller, NEO_GRB + NEO_KHZ800);
     strip_Controller.begin();
     strip_Controller.show();
-    Serial.println("end setupController");
     Serial.println("controller setup ended");
     //CAPACITIVESENSOR
     cs_0_2.set_CS_AutocaL_Millis(0xFFFFFFFF);// turn off autocalibrate on channel 1 - just as an example
@@ -385,9 +362,9 @@ void setup() {
   //CLIENT
   if(!isServer){
   //SETUP BOARD
+  Serial.println("BOARD SETUP BEGIN");
+    //INITIALIZE LED-STRIPS
     //R0
-    Serial.println("BOARD SETUP BEGIN");
-
     pinMode(ledPIN_R0, OUTPUT);
     stripBoard_R0 = Adafruit_NeoPixel(LENGTH_BOARD_R0, ledPIN_R0, NEO_GRB + NEO_KHZ800);
     stripBoard_R0.begin();
@@ -412,73 +389,52 @@ void setup() {
     stripBoard_R4 = Adafruit_NeoPixel(LENGTH_BOARD_R4, ledPIN_R4, NEO_GRB + NEO_KHZ800);
     stripBoard_R4.begin();
     delay(100);
-    //set all Colors to black
+    //set all strips to black
     ledPatterns::resetColor(LENGTH_BOARD_R0, &stripBoard_R0);
     ledPatterns::resetColor(LENGTH_BOARD_R1, &stripBoard_R1);
     ledPatterns::resetColor(LENGTH_BOARD_R2, &stripBoard_R2);
     ledPatterns::resetColor(LENGTH_BOARD_R3, &stripBoard_R3);
     ledPatterns::resetColor(LENGTH_BOARD_R4, &stripBoard_R4);
-
     Serial.println("board setup ended");
   }
   controller::activateMotor();
+
   Serial.println("End Setup");
 }
-//_____________________END__SETUP_______________________________________________________//
+//_____________________END__SETUP_____________________________________________//
 
-//_____________________BEGIN__LOOP______________________________________________________//
+//_____________________BEGIN__LOOP____________________________________________//
    void loop()
    {
-     Serial.println("Loop begin OUAHUUU");
-     Serial.printf("not Ready im loop" ); Serial.println(notReady);
-       //TURN LED ON WITH CAPACITIVE SENSOR
-       /*if (!isActive){
-       //loop capacitiveSensor
-       pentagramm::loopCapacitiveSensor();
-     }*/
-
-     /*if(!isServer){
-       if (!ghostshown){
-       displayGhost();
-       ghostshown = true;
-       Serial.println("Ghost was shown");
-       }
-     }*/
+     Serial.println("Loop begin");
+     //TURN LED ON WITH CAPACITIVE SENSOR
 
      if (isServer) {
-
+       /*if (!isActive){
+         pentagramm::loopCapacitiveSensor();
+       }*/
+       //GET KEY FROM RFID READER
        Serial.println(rfid().substring(1));
        String key = GetValue(rfid().substring(1));
        Serial.println(key);
 
-      while (!nextsp.connected()){
-        Serial.printf("x");
-      }
-
+    //ONLY SEND IF KEY IS EITHER EMPTY, NOR THE SAME AS BEFORE AND MAKE SURE ESP IS STILL CONNECTED
      if (nextsp.connected() && !key.equals(sentData) && !key.equals("EMPTY")) {
-         sentData = key;
-         Serial.println(sentData);
+       sentData = key;
+       Serial.println(sentData);
 
-            //ledPatterns::resetColor(LENGTH_CONTROLLER, &strip_Controller);
-            Serial.println("000");
-            if (key == "1") {
-              controller::activateMotor();
-              Serial.println("444");
-            }
-          // AS vermutlich noch doof
+        if (key == "1") {
+          controller::activateMotor();
+        }
 
-          nextsp.send(key);
-          delay(100);
-          //  Serial.println("111");
+    nextsp.send(key);
+    delay(100);
    }
   }
   delay(100);
   update_rfid();
-  //Serial.println("222");
-  // geht laut elisa auch ohne
   delay(100);
   nextsp.update();
    //Serial.println("END LOOP");
-
 }
-//____________________________END____LOOP_____________________________________________//
+//________________END____LOOP_________________________________________________//

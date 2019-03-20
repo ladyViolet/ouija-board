@@ -1,3 +1,4 @@
+//KEY-VALUE-STRUCT TO ASSIGN THE RIGHT CHARS, PIXELS AND ROWS TO THE RFID TAGS
 struct KeyValue{
   KeyValue(String k, String v, int id, int l, Adafruit_NeoPixel *r){
     key = k;
@@ -14,10 +15,8 @@ struct KeyValue{
 };
 
 KeyValue* rfidTags[30] = {
+  //EMPTY IS FOR READER READING NOTHING
   new KeyValue("", "EMPTY", -2, -2, nullptr),
-  //CARDS TO TEST
-  //new KeyValue("171 80 17 183", "testON", ),
-  //new KeyValue("23 05 010 175", "testOFF"),
   new KeyValue("70 199 167 131","A", 28, 2, &board::stripBoard_R0),
   new KeyValue("107 48 140 195", "B", 25, 2, &board::stripBoard_R0),
   new KeyValue("151 179 167 131", "C", 23, 2, &board::stripBoard_R0),
@@ -50,8 +49,8 @@ KeyValue* rfidTags[30] = {
   //new KeyValue("185 246 138 195", "3", 0, 21, &board::stripBoard_R2)//BYE
 };
 
-
 //Methods for accessing the different params of the map
+
 //RETURNS NAME
 String GetValue(String key){
   for(auto i = 0; i< 30; i++){
