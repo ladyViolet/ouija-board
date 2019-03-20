@@ -71,6 +71,42 @@ void displayGhost() {
 }
 //_______________END___GHOST________________________________________________//
 
+//_______________BEGIN___DISCO________________________________________________//
+//FÜR ANDI
+void playDisco() {
+//D
+stripBoard_R0.setPixelColor(21, stripBoard_R0.Color(0, 255, 220));
+stripBoard_R0.setPixelColor(22, stripBoard_R0.Color(0, 255, 220));
+stripBoard_R0.show();
+delay(500);
+ledPatterns::resetColor(LENGTH_BOARD_R0, &stripBoard_R0);
+//I
+stripBoard_R0.setPixelColor(11, stripBoard_R0.Color(0, 255, 220));
+stripBoard_R0.setPixelColor(12, stripBoard_R0.Color(0, 255, 220));
+stripBoard_R0.show();
+delay(500);
+ledPatterns::resetColor(LENGTH_BOARD_R0, &stripBoard_R0);
+//S
+stripBoard_R1.setPixelColor(16, stripBoard_R1.Color(0, 255, 220));
+stripBoard_R1.setPixelColor(17, stripBoard_R1.Color(0, 255, 220));
+stripBoard_R1.show();
+delay(500);
+ledPatterns::resetColor(LENGTH_BOARD_R1, &stripBoard_R1);
+//C
+stripBoard_R0.setPixelColor(23, stripBoard_R0.Color(0, 255, 220));
+stripBoard_R0.setPixelColor(24, stripBoard_R0.Color(0, 255, 220));
+stripBoard_R0.show();
+delay(500);
+ledPatterns::resetColor(LENGTH_BOARD_R0, &stripBoard_R0);
+//O
+stripBoard_R1.setPixelColor(25, stripBoard_R1.Color(0, 255, 220));
+stripBoard_R1.setPixelColor(26, stripBoard_R1.Color(0, 255, 220));
+stripBoard_R1.show();
+delay(500);
+ledPatterns::resetColor(LENGTH_BOARD_R1, &stripBoard_R1);
+}
+//_______________END___DISCO________________________________________________//
+
 //_______________BEGIN___CALLBACK___NEXTSP____________________________________________________//
 void onCallback(byte* b,int length) {
 Serial.println("Callback called");
@@ -81,14 +117,15 @@ Serial.println("Callback called");
 
   if(b[0] == '1') {
     Serial.println("YES ON");
-    ledPatterns::colorWipe(5, &stripBoard_R4);
+    ledPatterns::colorWipe(50, &stripBoard_R4);
     ledPatterns::resetColor(LENGTH_BOARD_R4, &stripBoard_R4);
   }
 
   if(b[0] == '2') {
     Serial.println("Stern ON");
-    ledPatterns::colorWipe(5, &stripBoard_R3);
+    ledPatterns::rainbow(5, &stripBoard_R3);
     ledPatterns::resetColor(LENGTH_BOARD_R3, &stripBoard_R3);
+    playDisco();
   }
 
   /*if(b[0] == '3') {
