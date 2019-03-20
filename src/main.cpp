@@ -147,6 +147,7 @@ if (b[0] == 'R') {
   }
 
   if (b[0] == 'V') {
+     
     stripBoard_R1.setPixelColor(10, stripBoard_R1.Color(255, 0, 0));
     stripBoard_R1.setPixelColor(11, stripBoard_R1.Color(255, 0, 0));
     stripBoard_R1.show();
