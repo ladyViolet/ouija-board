@@ -13,7 +13,7 @@ As well is it possible that the different characters on the board will be light 
 
 ## How?
 
-Our Ouija-Board functions via two ESP8266 devices connected with the [nExtSP](https://github.com/Lyniat/nExtSP) library by [lyniat] (https://github.com/Lyniat) 
+Our Ouija-Board functions via two ESP8266 devices connected with the [nExtSP](https://github.com/Lyniat/nExtSP) library by [lyniat](https://github.com/Lyniat) 
 The Application consists of two physical devices - the board and the controller. Each is connected to a ESP8266 microcontroller and gives as well haptic as visual feedback when interacting with the board.
 
 The specific functions and the circuit layout of the board and controller and their behaviour can be retreived from the code and the documentation.
