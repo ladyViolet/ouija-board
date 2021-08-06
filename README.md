@@ -2,13 +2,15 @@
 ##### nower than ESP-Now
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+![board](images/IMG_1349b.jpg)  
+
 ## What's it for?
 
-The code describes the main function of a digital implementation of a ouija-board.
+The code describes the main functions of a digital implementation of a ouija-board.
 Just as it works with a classical oldschool wooden device, this board provides you an opportunity to communicate with the other side.
-Long story short- you can call ghosts with it an receive messages from them.
+Long story short - you can call ghosts with it and receive messages from them.
 
-The ghosts will show up in different ways. They can either send you direct feedback when you realise the controller is vibrating or they can send you any kind of sign via the LED-stripes hidden in the board an controller.
+The ghosts will show up in different ways. They can either send you direct feedback when you realise the controller is vibrating or they can send you any kind of sign via the LED-stripes hidden in the board and controller.
 As well is it possible that the different characters on the board will be light up, so you can read messages from the ghosts.
 
 ## How?
