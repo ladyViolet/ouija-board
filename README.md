@@ -28,3 +28,5 @@ this project is still in a prototypical state and has a lot of bugs mainly cause
 ## License
 * MIT
 * by [Elisa Valetta](https://github.com/vallettina) and [Laura Zeilbeck](https://github.com/ladyViolet)
+
+[Preview of the Ouija Board on the YT-Channel of IWMIUniRegensburg](https://www.youtube.com/watch?v=TqID30ngzIQ)
